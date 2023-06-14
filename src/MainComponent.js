@@ -1,38 +1,41 @@
 import React, { Component } from 'react';
-import { Navbar, NavbarBrand } from 'reactstrap';
 import Menu from './MenuComponent';
+import DishDetail from './DishDetail'; // Add this line
 
 import { DISHES } from './dishes';
+import Header from './HeaderComponent';
+import Footer from './FooterComponent';
 
 class Main extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
-        dishes: DISHES,
-        selectedDish: null
+      dishes: DISHES,
+      selectedDish: null
     };
   }
 
   onDishSelect(dishId) {
-    this.setState({ selectedDish: dishId});
+    this.setState({ selectedDish: dishId });
   }
 
   render() {
+    const selectedDish = this.state.dishes.find(
+      (dish) => dish.id === this.state.selectedDish
+    );
+
     return (
       <div>
-        <Navbar dark color="primary">
-          <div className="container">
-            <NavbarBrand href="/">Ristorante Con Fusion</NavbarBrand>
-          </div>
-        </Navbar>
-        <Menu dishes={this.state.dishes} onClick={(dishId) => this.onDishSelect(dishId)} />
-        
+        <Header />
+        <Menu
+          dishes={this.state.dishes}
+          onDishSelect={(dishId) => this.onDishSelect(dishId)}
+        />
+        <DishDetail dish={selectedDish} />
+        <Footer />
       </div>
     );
   }
 }
 
 export default Main;
-
-
