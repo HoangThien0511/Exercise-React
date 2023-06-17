@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
 import Menu from './MenuComponent';
-import DishDetail from './DishDetail'; // Add this line
-
+import DishDetail from './DishDetail';
 import { DISHES } from './dishes';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
+import Home from './HomeComponent';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import Contact from './ContactComponent';
+import { COMMENTS } from './comments';
+import { PROMOTIONS } from './promotions';
+import { LEADERS } from './leaders';
 
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dishes: DISHES,
+      comments: COMMENTS,
+      promotions: PROMOTIONS,
+      leaders: LEADERS,
       selectedDish: null
     };
   }
@@ -20,18 +28,42 @@ class Main extends Component {
   }
 
   render() {
-    const selectedDish = this.state.dishes.find(
-      (dish) => dish.id === this.state.selectedDish
-    );
+    const HomePage = () => {
+      return (
+        <Home
+          dish={this.state.dishes.filter((dish) => dish.featured)[0]}
+          promotion={this.state.promotions.filter((promo) => promo.featured)[0]}
+          leader={this.state.leaders.filter((leader) => leader.featured)[0]}
+        />
+      );
+    }
 
     return (
       <div>
         <Header />
-        <Menu
-          dishes={this.state.dishes}
-          onDishSelect={(dishId) => this.onDishSelect(dishId)}
-        />
-        <DishDetail dish={selectedDish} />
+        <Switch>
+          <Route path="/home" component={HomePage} />
+          <Route
+            exact
+            path="/menu"
+            component={() => <Menu dishes={this.state.dishes} />}
+          />
+          <Route
+            path="/menu/:dishId"
+            component={({ match }) => (
+              <DishDetail
+                dish={this.state.dishes.filter(
+                  (dish) => dish.id === parseInt(match.params.dishId, 10)
+                )[0]}
+                comments={this.state.comments.filter(
+                  (comment) => comment.dishId === parseInt(match.params.dishId, 10)
+                )}
+              />
+            )}
+          />
+          <Route exact path="/contactus" component={Contact} />
+          <Redirect to="/home" />
+        </Switch>
         <Footer />
       </div>
     );
