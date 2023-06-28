@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-function RenderDish({ dish }) {
+function RenderDish({ dish, comments }) {
   if (dish != null) {
     return (
       <div className="col-12 col-md-5 m-1">
@@ -13,6 +13,7 @@ function RenderDish({ dish }) {
             <CardText>{dish.description}</CardText>
           </CardBody>
         </Card>
+        <RenderComments comments={comments} />
       </div>
     );
   } else {
@@ -41,7 +42,7 @@ function RenderComments({ comments }) {
     });
 
     return (
-      <div className="col-12 col-md-5 m-1">
+      <div>
         <h4>Comments</h4>
         {cmnts}
       </div>
@@ -68,12 +69,7 @@ const DishDetail = (props) => {
           </div>
         </div>
         <div className="row">
-          <RenderDish dish={props.dish} />
-          <RenderComments
-            comments={props.comments.filter(
-              (comment) => comment.dishId === props.dish.id
-            )}
-          />
+          <RenderDish dish={props.dish} comments={props.comments} />
         </div>
       </div>
     );
