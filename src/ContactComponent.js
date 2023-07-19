@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, Label, Input, Col, Row, FormFeedback } from 'reactstrap';
+import { Breadcrumb, BreadcrumbItem, Button, Label, Col, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 
@@ -109,7 +109,7 @@ class Contact extends Component {
                   <Control.text
                     model=".telnum"
                     id="telnum"
-                    name="                    telnum"
+                    name="telnum"
                     placeholder="Tel. Number"
                     className="form-control"
                     validators={{
@@ -159,7 +159,7 @@ class Contact extends Component {
                   />
                 </Col>
               </Row>
-              
+
               <Row className="form-group">
                 <Col md={{ size: 10, offset: 2 }}>
                   <Button type="submit" color="primary">
@@ -167,7 +167,6 @@ class Contact extends Component {
                   </Button>
                 </Col>
               </Row>
-              
             </LocalForm>
           </div>
         </div>
@@ -177,4 +176,3 @@ class Contact extends Component {
 }
 
 export default Contact;
-
